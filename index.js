@@ -34,6 +34,29 @@ async function run() {
         const Database = client.db("ADDToyDB");
         const addtoyCollection = Database.collection("addToys")
 
+        // creating index on the two fields
+        const indexKEY = { Seller: 1, Name: 1 };
+        const indexOptions = { Name: "SellerName" };
+        const result = await toyCollection.createIndex(indexKEY, indexOptions)
+
+        app.get('/searchByTitle/:text', async (req, res) => {
+            const searchText = req.params.text;
+            const result = await toyCollection.find({
+                $or: [
+
+
+                    { Seller: { $regex: searchText, $options: "i" } },
+                    { Name: { $regex: searchText, $options: "i" } },
+
+                ],
+
+
+            }).toArray()
+            res.send(result)
+        })
+
+
+
         // Toy
 
         app.get('/toy', async (req, res) => {
@@ -42,7 +65,7 @@ async function run() {
             res.send(result)
 
         })
-
+        // update
         app.get('/toy/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
@@ -56,7 +79,7 @@ async function run() {
             const result = await addtoyCollection.insertOne(NewToy);
             res.send(result)
         })
-
+        // update toy
         app.put('/toy/:id', async (req, res) => {
             const id = req.params.id;
             const updatedToy = req.body
@@ -78,6 +101,7 @@ async function run() {
             res.send(result)
 
         })
+
         //Toys 
         app.get('/toys', async (req, res) => {
             const cursor = toyCollection.find();
@@ -98,6 +122,7 @@ async function run() {
             res.send(result);
         })
 
+        // delete toy 
         app.delete('/toy/:id', async (req, res) => {
             const id = req.params.id;
             console.log('please delete from database', id);
