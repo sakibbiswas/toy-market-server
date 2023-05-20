@@ -159,9 +159,9 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('toy is running')
+    res.send('toy is running');
 })
 
 app.listen(port, () => {
-    console.log(` toy API is running  on port : ${port}`)
+    console.log(` toy API is running  on port : ${port}`);
 })
