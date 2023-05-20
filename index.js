@@ -138,7 +138,7 @@ async function run() {
             console.log('please delete from database', id);
             const query = { _id: new ObjectId(id) };
             const result = await toyCollection.deleteOne(query);
-            res.send(result)
+            res.send(result);
         })
 
         // Send a ping to confirm a successful connection
