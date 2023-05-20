@@ -68,7 +68,7 @@ async function run() {
 
           
             const cursor = toyCollection.find(query);
-            const result = await cursor.toArray()
+            const result = await cursor.toArray();
             res.send(result)
 
         })
