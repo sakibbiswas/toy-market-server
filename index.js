@@ -46,7 +46,7 @@ async function run() {
 
 
                     { Seller: { $regex: searchText, $options: "i" } },
-                    { Name: { $regex: searchText, $options: "i" } },
+                    { Name: { $regex: searchText,   $options: "i" } },
 
                 ],
 
