@@ -37,25 +37,25 @@ async function run() {
 
 
         // creating index on the two fields
-        // const indexKEY = { Seller: 1, Name: 1 };
-        // const indexOptions = { Name: "SellerName" };
-        // const result = await toyCollection.createIndex(indexKEY, indexOptions)
+        const indexKEY = { Seller: 1, Name: 1 };
+        const indexOptions = { Name: "SellerName" };
+        const result = await toyCollection.createIndex(indexKEY, indexOptions)
 
-        // app.get('/searchByTitle/:text', async (req, res) => {
-        //     const searchText = req.params.text;
-        //     const result = await toyCollection.find({
-        //         $or: [
-
-
-        //             { Seller: { $regex: searchText, $options: "i" } },
-        //             { Name: { $regex: searchText,   $options: "i" } },
-
-        //         ],
+        app.get('/searchByTitle/:text', async (req, res) => {
+            const searchText = req.params.text;
+            const result = await toyCollection.find({
+                $or: [
 
 
-        //     }).toArray()
-        //     res.send(result)
-        // })
+                    { Seller: { $regex: searchText, $options: "i" } },
+                    { Name: { $regex: searchText, $options: "i" } },
+
+                ],
+
+
+            }).toArray()
+            res.send(result)
+        })
 
 
 
