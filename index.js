@@ -123,10 +123,10 @@ async function run() {
 
         app.get('/toys/:id', async (req, res) => {
             const id = req.params.id;
-            const query = { _id: new ObjectId(id) };
+            const query = { _id: new ObjectId(id) }
             const options = {
                 projection: { Name: 1, img: 1, Rating: 1, price: 1, description: 1, Seller: 1 ,photo:1, name:1, Details:1, Available_Quantity:1, email:1,}
-            };
+            }
             const result = await toyCollection.findOne(query, options);
             res.send(result);
         })
