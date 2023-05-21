@@ -6,7 +6,7 @@ const port = process.env.PORT || 4000;
 require('dotenv').config()
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-// Middleware
+
 app.use(cors())
 app.use(express.json())
 
@@ -31,64 +31,66 @@ async function run() {
         const database = client.db("ToyDB");
         const toyCollection = database.collection("Toys")
 
-        // const Database = client.db("ADDToyDB");
-        // const addtoyCollection = Database.collection("addToys")
+
+
+
+
 
         // creating index on the two fields
-        const indexKEY = { Seller: 1, Name: 1 };
-        const indexOptions = { Name: "SellerName" };
-        const result = await toyCollection.createIndex(indexKEY, indexOptions)
+        // const indexKEY = { Seller: 1, Name: 1 };
+        // const indexOptions = { Name: "SellerName" };
+        // const result = await toyCollection.createIndex(indexKEY, indexOptions)
 
-        app.get('/searchByTitle/:text', async (req, res) => {
-            const searchText = req.params.text;
-            const result = await toyCollection.find({
-                $or: [
-
-
-                    { Seller: { $regex: searchText, $options: "i" } },
-                    { Name: { $regex: searchText,   $options: "i" } },
-
-                ],
+        // app.get('/searchByTitle/:text', async (req, res) => {
+        //     const searchText = req.params.text;
+        //     const result = await toyCollection.find({
+        //         $or: [
 
 
-            }).toArray()
-            res.send(result)
-        })
+        //             { Seller: { $regex: searchText, $options: "i" } },
+        //             { Name: { $regex: searchText,   $options: "i" } },
+
+        //         ],
+
+
+        //     }).toArray()
+        //     res.send(result)
+        // })
 
 
 
         // Toy
-          
+
         app.get('/toy', async (req, res) => {
-           
-            let query={};
-            if(req.query.email){
-                query={email :req.query.email}
+
+            let query = {};
+            if (req.query.email) {
+                query = { email: req.query.email }
             }
 
-          
+
             const cursor = toyCollection.find(query);
             const result = await cursor.toArray();
             res.send(result)
 
         })
         // update
-          
+
         app.get('/toy/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const result = await toyCollection.findOne(query);
             res.send(result);
         })
-      
+
         app.post('/toy', async (req, res) => {
             const NewToy = req.body;
-         
+
             const result = await toyCollection.insertOne(NewToy);
             res.send(result)
         })
         // update toy
-          
+
         app.put('/toy/:id', async (req, res) => {
             const id = req.params.id;
             const updatedToy = req.body
@@ -125,7 +127,7 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const options = {
-                projection: { Name: 1, img: 1, Rating: 1, price: 1, description: 1, Seller: 1 ,photo:1, name:1, Details:1, Available_Quantity:1, email:1,}
+                projection: { Name: 1, img: 1, Rating: 1, price: 1, description: 1, Seller: 1, photo: 1, name: 1, Details: 1, Available_Quantity: 1, email: 1, }
             }
             const result = await toyCollection.findOne(query, options);
             res.send(result);
